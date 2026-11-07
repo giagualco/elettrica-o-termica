@@ -1,0 +1,86 @@
+{
+  "_nota": "Fonte di verità documentale delle costanti usate dal calcolatore. I valori sono replicati dentro _build/app.js (e quindi in index.html), che deve restare un file unico e funzionante anche offline: quando si aggiorna un numero qui, va aggiornato anche là e poi si riassembla con python3 _build/costruisci.py. Ogni voce porta la fonte e la data. Le voci con \"ipotesi\": true non sono misure: sono stime dichiarate e modificabili nella pagina.",
+  "aggiornato": "2026-11-07",
+
+  "prezzo_benzina_eur_l": {
+    "valore": 2.010,
+    "fonte": "Osservatorio prezzi carburanti MIMIT, prezzo medio self service sulla rete stradale, 1 novembre 2026 (ripreso da Teleborsa / L'Adige)",
+    "url": "https://www.mimit.gov.it/it/prezzo-medio-carburanti",
+    "nota": "In autostrada 2,036. Cambia ogni giorno: è la costante che invecchia per prima."
+  },
+  "prezzo_gasolio_eur_l": {
+    "valore": 2.241,
+    "fonte": "Osservatorio prezzi carburanti MIMIT, self service, rete stradale, 1 novembre 2026",
+    "url": "https://www.mimit.gov.it/it/prezzo-medio-carburanti",
+    "nota": "In autostrada 2,287."
+  },
+  "prezzo_luce_casa_eur_kwh": {
+    "valore": 0.4343,
+    "fonte": "ARERA, cliente tipo vulnerabile in maggior tutela, IV trimestre 2026 (dal 1 ottobre), imposte incluse; comunicato stampa del 29/09/2026",
+    "url": "https://www.arera.it/comunicati-stampa/dettaglio/elettricita-maggior-tutela-373-nel-iv-trimestre-2026-per-i-clienti-vulnerabili",
+    "serie_2026": {"III_trimestre": 0.3163, "IV_trimestre": 0.4343},
+    "nota": "+37,3% sul trimestre prima. Sul mercato libero si trovano offerte più basse: per questo è modificabile. Va riverificato a ogni trimestre."
+  },
+  "colonnina_ac_eur_kwh": {
+    "valore": 0.69,
+    "fonte": "Listino Enel X Way, Pay Per Use senza abbonamento, corrente alternata, IVA inclusa (verificato per il calcolatore fotovoltaico, settembre 2026)",
+    "url": "https://www.enelxway.com/content/dam/enelxmobility/italia/documenti/tariffe-abbonamenti/piani-di-ricarica-enel-x-way.pdf"
+  },
+  "colonnina_dc_eur_kwh": {
+    "valore": 0.89,
+    "fonte": "Listino Enel X Way, corrente continua fino a 150 kW, IVA inclusa; 0,99 oltre i 150 kW",
+    "url": "https://www.enelxway.com/content/dam/enelxmobility/italia/documenti/tariffe-abbonamenti/piani-di-ricarica-enel-x-way.pdf"
+  },
+  "percorrenza_media_km": {
+    "valore": 10231,
+    "fonte": "ISTAT, Le percorrenze dei veicoli stradali circolanti, anno 2021, pubblicato giugno 2025",
+    "url": "https://www.istat.it/wp-content/uploads/2025/06/Le-percorrenze-dei-veicoli-stradali-circolanti.pdf",
+    "nota": "Insieme delle autovetture. Le elettriche ne percorrono 13.581."
+  },
+  "co2_rete_kg_kwh": {
+    "valore": 0.1996,
+    "fonte": "ISPRA, Rapporto 430/2026 «Le emissioni di CO2 nel settore elettrico», fattore di emissione dei consumi elettrici 2025 (stima preliminare); 192,6 g/kWh nel 2024",
+    "url": "https://www.isprambiente.gov.it/files2026/pubblicazioni/rapporti/r430-2026-2.pdf",
+    "nota": "Sola combustione nelle centrali: per coerenza anche i carburanti sono conteggiati alla sola combustione."
+  },
+  "co2_benzina_kg_l": {
+    "valore": 2.33, "ipotesi": true,
+    "fonte": "Fattore medio di combustione della benzina (circa 3,14 kg CO2 per kg × densità 0,74 kg/L)",
+    "nota": "Esclusa la filiera di estrazione e raffinazione, come per l'elettricità."
+  },
+  "co2_gasolio_kg_l": {
+    "valore": 2.65, "ipotesi": true,
+    "fonte": "Fattore medio di combustione del gasolio (circa 3,16 kg CO2 per kg × densità 0,835 kg/L)"
+  },
+  "bollo": {
+    "tariffa_eur_kw_fino_100": 2.58,
+    "tariffa_eur_kw_oltre_100": 3.87,
+    "elettriche": "esenti per i primi 5 anni dall'immatricolazione, poi un quarto della tariffa",
+    "fonte": "Tariffa ordinaria delle tasse automobilistiche per le Euro 4-6",
+    "nota": "Alcune regioni (es. Piemonte, Lombardia) hanno regole più favorevoli per le elettriche. Superbollo oltre 185 kW non conteggiato."
+  },
+  "correzioni_percorso": {
+    "ipotesi": true,
+    "moltiplicatori": {
+      "benzina": {"citta": 1.15, "extra": 0.90, "autostrada": 1.05},
+      "gasolio": {"citta": 1.15, "extra": 0.90, "autostrada": 1.00},
+      "ibrida":  {"citta": 0.85, "extra": 0.95, "autostrada": 1.20},
+      "elettrica": {"citta": 0.80, "extra": 0.95, "autostrada": 1.30}
+    },
+    "mix": {
+      "citta": {"citta": 0.60, "extra": 0.30, "autostrada": 0.10},
+      "misto": {"citta": 0.35, "extra": 0.35, "autostrada": 0.30},
+      "autostrada": {"citta": 0.15, "extra": 0.30, "autostrada": 0.55}
+    },
+    "nota": "Normalizzati sul mix «misto», che quindi restituisce il dato WLTP."
+  },
+  "scostamento_reale_pct": {"termica": 15, "elettrica": 15, "ipotesi": true,
+    "nota": "Su strada si consuma di solito il 10-25% in più del WLTP. Il WLTP delle elettriche è misurato alla presa: include le perdite di ricarica."},
+  "quote_ricarica": {"ipotesi": true,
+    "casa":  {"casa": 0.90, "ac": 0.10, "dc": 0.00},
+    "misto": {"casa": 0.50, "ac": 0.35, "dc": 0.15},
+    "fuori": {"casa": 0.00, "ac": 0.60, "dc": 0.40}},
+  "manutenzione_eur_anno": {"benzina": 600, "gasolio": 600, "ibrida": 500, "elettrica": 350, "ipotesi": true},
+  "assicurazione_eur_anno": {"termica": 500, "elettrica": 500, "ipotesi": true, "nota": "Uguali di proposito: non spostano il risultato finché l'utente non mette i suoi preventivi."},
+  "svalutazione_pct_anno": {"termica": 12, "elettrica": 15, "ipotesi": true, "nota": "È la voce più incerta del conto."}
+}
