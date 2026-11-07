@@ -1,7 +1,1 @@
-streamlit
-pandas
-matplotlib
-fpdf
-plotly
-numpy
-requests
+streamlit>=1.40
